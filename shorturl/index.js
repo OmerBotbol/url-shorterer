@@ -1,5 +1,6 @@
 const {Router} = require("express");
-const shortUrl = require("./shortUrl");
+const shortUrl = require("./shorturl");
+
 
 const api = Router();
 

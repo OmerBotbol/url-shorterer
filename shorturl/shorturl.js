@@ -1,8 +1,19 @@
+class DataBase{
+    constructor(){
+        this.data =[]
+    }
+
+    update(priviousURLs){
+        this.data = [...priviousURLs]
+    }
+}
+
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const shortid = require("shortid")
 const dns = require("dns");
+const dataBase = new DataBase()
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: false }))
@@ -15,12 +26,14 @@ router.post("/new", (req, res)=>{
         checkValidationOfHost(givenUrl).then(()=>{
             checkRepeat(givenUrl).then((resolve)=>{
                 res.send(resolve);
-            }).catch(()=>{
-                const urlData = [{
+            }).catch((rej)=>{
+                dataBase.update(rej);
+                const urlData = {
                     "original_URL":givenUrl,
                     "new_URL": shortid.generate()
-                }];
-                fs.writeFile("./DataBase.json",JSON.stringify(urlData, null, 4),'utf8',(err)=>{
+                };
+                dataBase.data.push(urlData);
+                fs.writeFile("./DataBase.json",JSON.stringify(dataBase, null, 4),'utf8',(err)=>{
                     if (err) throw err;
                 })
                 res.send(urlData);
@@ -36,8 +49,8 @@ router.get("/:shorturl", (req, res)=>{
     const {shorturl} = req.params;
     fs.readFile("./DataBase.json",(err, data)=>{
         try {
-            const dataBase = JSON.parse(data.toString());
-            const urlToRedirect = dataBase.find(url => url.new_URL === shorturl).original_URL;
+            const existURLs = JSON.parse(data.toString());
+            const urlToRedirect = existURLs.data.find(url => url.new_URL === shorturl).original_URL;
             res.redirect(urlToRedirect);
         }
         catch(error){
@@ -75,13 +88,13 @@ function checkValidationOfUrl(url){
 function checkRepeat(originalUrl){
     return new Promise((resolve, reject)=>{
         fs.readFile("./DataBase.json",(err,data)=>{
-            const dataBase = JSON.parse(data.toString());
-            dataBase.forEach(url => {
+            const existURLs = JSON.parse(data.toString());
+            existURLs.data.forEach(url => {
                 if(url.original_URL === originalUrl){
                     resolve(url)
                 }
             })
-            reject()
+            reject(existURLs.data)
         })
     })
 }

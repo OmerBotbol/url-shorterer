@@ -21,7 +21,10 @@ router.post("/new", (req, res)=>{
                 res.send(urls);
             }).catch((reject)=>{
                 dataBase.write(reject, givenUrl)
-                res.send(dataBase.data[dataBase.data.length - 1]);
+                const urls = {
+                    "original_URL": dataBase.data[dataBase.data.length - 1]["original_URL"],
+                    "new_URL": dataBase.data[dataBase.data.length - 1]["new_URL"]}
+                res.send(urls);
             })
     
         }).catch(()=>{

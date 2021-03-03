@@ -3,12 +3,24 @@
         "original_URL": "https://www.google.com",
         "new_URL": "_8a5ayCIH",
         "creationDate": 1614784842274,
-        "redirectCount": 4
+        "redirectCount": 5
     },
     {
         "original_URL": "https://www.twitter.com",
         "new_URL": "123456",
         "creationDate": 1614784842274,
+        "redirectCount": 0
+    },
+    {
+        "original_URL": "https://facebook.com",
+        "new_URL": "_DetZPccL",
+        "creationDate": 1614794518308,
+        "redirectCount": 0
+    },
+    {
+        "original_URL": "https://github.com",
+        "new_URL": "x_WKomntM",
+        "creationDate": 1614794888678,
         "redirectCount": 0
     }
 ]

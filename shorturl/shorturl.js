@@ -15,7 +15,10 @@ router.post("/new", (req, res)=>{
     } else{
         checkValidationOfHost(givenUrl).then(()=>{
             checkRepeat(givenUrl).then((resolve)=>{
-                res.send(resolve);
+                const urls = {
+                "original_URL": resolve["original_URL"],
+                "new_URL": resolve["new_URL"]}
+                res.send(urls);
             }).catch((reject)=>{
                 dataBase.write(reject, givenUrl)
                 res.send(dataBase.data[dataBase.data.length - 1]);
@@ -32,6 +35,7 @@ router.get("/:shorturl", (req, res)=>{
             dataBase.read().then((resolve) =>{
                 try{
                     const urlToRedirect = resolve.find(url => url.new_URL === shorturl).original_URL;
+                    dataBase.updateCount(resolve, urlToRedirect);
                     res.redirect(urlToRedirect);
                 }
                 catch(err){

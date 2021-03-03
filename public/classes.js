@@ -4,12 +4,13 @@ class DataBase{
     constructor(){
         this.data =[]
     }
-    
     write(priviousURLs, url){
         this.data = [...priviousURLs]
         const urlData = {
             "original_URL":url,
-            "new_URL": shortid.generate()
+            "new_URL": shortid.generate(),
+            "creationDate": Date.now(),
+            "redirectCount": 0
         };
         this.data.push(urlData);
         fs.writeFile("./DataBase.json",JSON.stringify(this.data, null, 4),'utf8',(err)=>{
@@ -28,5 +29,15 @@ class DataBase{
             })
         })
     }
+
+    updateCount(priviousURLs, originalURL){
+        this.data = [...priviousURLs];
+        const indexOfChange = this.data.findIndex(url => url.original_URL === originalURL);
+        this.data[indexOfChange].redirectCount++;
+        fs.writeFile("./DataBase.json",JSON.stringify(this.data, null, 4),'utf8',(err)=>{
+            if (err) throw err;
+        })
+    }
 }
+
 module.exports = DataBase;

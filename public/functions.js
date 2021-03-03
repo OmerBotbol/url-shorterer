@@ -36,4 +36,9 @@ function checkRepeat(originalUrl){
     })
 }
 
+function getSQLFormat(time){ //sets the date in SQL format
+    let currentTime = new Date(time);
+    return currentTime.toLocaleDateString() + " " + currentTime.toLocaleTimeString();
+}
+
 module.exports = {checkValidationOfUrl, checkValidationOfHost, checkRepeat}

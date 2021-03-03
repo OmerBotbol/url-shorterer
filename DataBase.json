@@ -1,26 +1,14 @@
 [
     {
-        "original_URL": "https://www.twitter.com",
-        "new_URL": "Um9zp9ysE"
-    },
-    {
         "original_URL": "https://www.google.com",
-        "new_URL": "__1hIv4YD"
+        "new_URL": "_8a5ayCIH",
+        "creationDate": 1614784842274,
+        "redirectCount": 4
     },
     {
-        "original_URL": "https://www.facebook.com",
-        "new_URL": "ftr4uNFDI"
-    },
-    {
-        "original_URL": "https://www.amazon.com",
-        "new_URL": "pSHCMLE66"
-    },
-    {
-        "original_URL": "https://www.ebay.com",
-        "new_URL": "fpGbuUF4M"
-    },
-    {
-        "original_URL": "https://www.ynet.co.il",
-        "new_URL": "KjZ0vLhHG"
+        "original_URL": "https://www.twitter.com",
+        "new_URL": "123456",
+        "creationDate": 1614784842274,
+        "redirectCount": 0
     }
 ]

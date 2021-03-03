@@ -41,4 +41,4 @@ function getSQLFormat(time){ //sets the date in SQL format
     return currentTime.toLocaleDateString() + " " + currentTime.toLocaleTimeString();
 }
 
-module.exports = {checkValidationOfUrl, checkValidationOfHost, checkRepeat}
+module.exports = {checkValidationOfUrl, checkValidationOfHost, checkRepeat, getSQLFormat}

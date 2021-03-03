@@ -1,5 +1,6 @@
 const dns = require("dns");
-const fs = require("fs");
+const DataBase = require("./classes")
+const dataBase = new DataBase();
 
 function checkValidationOfHost(url){
     const hostName = new URL(url).hostname;
@@ -24,14 +25,13 @@ function checkValidationOfUrl(url){
 
 function checkRepeat(originalUrl){
     return new Promise((resolve, reject)=>{
-        fs.readFile("./DataBase.json",(err,data)=>{
-            const existURLs = JSON.parse(data.toString());
-            existURLs.forEach(url => {
+        dataBase.read().then((res)=>{
+            res.forEach(url => {
                 if(url.original_URL === originalUrl){
                     resolve(url)
                 }
             })
-            reject(existURLs)
+            reject(res)
         })
     })
 }

@@ -1,16 +1,26 @@
-{
-    "data": [
-        {
-            "original_URL": "https://www.twitter.com",
-            "new_URL": "Um9zp9ysE"
-        },
-        {
-            "original_URL": "https://www.google.com",
-            "new_URL": "__1hIv4YD"
-        },
-        {
-            "original_URL": "https://www.facebook.com",
-            "new_URL": "ftr4uNFDI"
-        }
-    ]
-}
+[
+    {
+        "original_URL": "https://www.twitter.com",
+        "new_URL": "Um9zp9ysE"
+    },
+    {
+        "original_URL": "https://www.google.com",
+        "new_URL": "__1hIv4YD"
+    },
+    {
+        "original_URL": "https://www.facebook.com",
+        "new_URL": "ftr4uNFDI"
+    },
+    {
+        "original_URL": "https://www.amazon.com",
+        "new_URL": "pSHCMLE66"
+    },
+    {
+        "original_URL": "https://www.ebay.com",
+        "new_URL": "fpGbuUF4M"
+    },
+    {
+        "original_URL": "https://www.ynet.co.il",
+        "new_URL": "KjZ0vLhHG"
+    }
+]

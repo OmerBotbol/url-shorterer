@@ -26,12 +26,12 @@ function checkRepeat(originalUrl){
     return new Promise((resolve, reject)=>{
         fs.readFile("./DataBase.json",(err,data)=>{
             const existURLs = JSON.parse(data.toString());
-            existURLs.data.forEach(url => {
+            existURLs.forEach(url => {
                 if(url.original_URL === originalUrl){
                     resolve(url)
                 }
             })
-            reject(existURLs.data)
+            reject(existURLs)
         })
     })
 }

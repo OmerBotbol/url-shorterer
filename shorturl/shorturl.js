@@ -1,9 +1,8 @@
-const dataBase = require("../public/classes");
+const DataBase = require("../public/classes");
 const {checkValidationOfUrl, checkValidationOfHost, checkRepeat} = require("../public/functions");
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
-const shortid = require("shortid");
+const dataBase = new DataBase();
 
 
 router.use(express.json());
@@ -17,17 +16,9 @@ router.post("/new", (req, res)=>{
         checkValidationOfHost(givenUrl).then(()=>{
             checkRepeat(givenUrl).then((resolve)=>{
                 res.send(resolve);
-            }).catch((rej)=>{
-                dataBase.update(rej);
-                const urlData = {
-                    "original_URL":givenUrl,
-                    "new_URL": shortid.generate()
-                };
-                dataBase.data.push(urlData);
-                fs.writeFile("./DataBase.json",JSON.stringify(dataBase, null, 4),'utf8',(err)=>{
-                    if (err) throw err;
-                })
-                res.send(urlData);
+            }).catch((reject)=>{
+                dataBase.write(reject, givenUrl)
+                res.send(dataBase.data[dataBase.data.length - 1]);
             })
     
         }).catch(()=>{
@@ -38,22 +29,20 @@ router.post("/new", (req, res)=>{
 
 router.get("/:shorturl", (req, res)=>{
     const {shorturl} = req.params;
-    fs.readFile("./DataBase.json",(err, data)=>{
-        try {
-            const existURLs = JSON.parse(data.toString());
-            const urlToRedirect = existURLs.data.find(url => url.new_URL === shorturl).original_URL;
-            res.redirect(urlToRedirect);
-        }
-        catch(error){
-            if(err){
-                res.status(500);
-                res.send({"msg":"We have a problem in our server please try again later"});
-            }
-            res.status(404);
-            res.send({"error":"No short URL found for the given input"});
-        }
+            dataBase.read().then((resolve) =>{
+                try{
+                    const urlToRedirect = resolve.find(url => url.new_URL === shorturl).original_URL;
+                    res.redirect(urlToRedirect);
+                }
+                catch(err){
+                    res.status(404);
+                    res.send({"error":"No short URL found for the given input"});
+                }
+            }).catch(()=>{
+                    res.status(500);
+                    res.send({"msg":"We have a problem in our server please try again later"});
+            })
     })
-})
 
 
 module.exports = router;

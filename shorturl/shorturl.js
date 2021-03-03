@@ -24,11 +24,21 @@ router.post("/:new", (req, res)=>{
 
 router.get("/:shorturl", (req, res)=>{
     const {shorturl} = req.params;
-    fs.readFile("./DataBase.json",(err, data)=>{
-        const dataBase = JSON.parse(data.toString())
-        const urlToRedirect = dataBase.find(url => url.new_URL === shorturl).original_URL;
-        res.redirect(urlToRedirect);
-    })
+        fs.readFile("./DataBase.json",(err, data)=>{
+            try {
+                const dataBase = JSON.parse(data.toString());
+                const urlToRedirect = dataBase.find(url => url.new_URL === shorturl).original_URL;
+                res.redirect(urlToRedirect);
+            }
+            catch(error){
+                if(err){
+                    res.status(500);
+                    res.send({"msg":"we have a problem in our server please try again later"});
+                }
+                res.status(404);
+                res.send({"error":"No short URL found for the given input"});
+            }
+        })
 })
 
 function checkValidation(url){
@@ -39,10 +49,6 @@ function checkValidation(url){
           return false;
         }
         return true;
-}
-
-function getFullURL(shortUrl){
-    
 }
 
 module.exports = router;

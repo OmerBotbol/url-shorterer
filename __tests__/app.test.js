@@ -1,39 +1,55 @@
 const request = require("supertest");
-const DataBase = require("../public/classes")
 const shortid = require("shortid");
-const dataBase = new DataBase();
-
+const nock = require('nock')
 const app = require("../app");
-beforeEach(() => {
-    jest.spyOn(shortid, 'generate').mockReturnValue("abcdef");
-});
-
-afterEach(() => {
-    jest.spyOn(shortid, 'generate').mockRestore();
-})
-
-describe("POST entry points: ",()=>{
-    const sentPost = {
+const mockURLs = [
+    {
         url:"https://github.com"
-    }
-
-    const newPost = {
+    },
+    {
         url:"https://instegram.com"
+    },
+    {
+        url:"I'mInvalidURL"
+    },
+    {
+        url:"https://noubpiubpibpub.com"
     }
+]
+describe("POST entry points: ",()=>{
     it("should not change the new url when exist url is enteres", async ()=>{
 
-        const firstResponse = await request(app).post("/api/shorturl/new").send(sentPost);
-        const secondResponse = await request(app).post("/api/shorturl/new").send(sentPost);
+        const firstResponse = await request(app).post("/api/shorturl/new").send(mockURLs[0]);
+        const secondResponse = await request(app).post("/api/shorturl/new").send(mockURLs[0]);
         expect(firstResponse.status).toBe(200);
         expect(firstResponse.body).toEqual(secondResponse.body);
     })
 
-    it("should create new url when adding url that doesn't exist yet", async ()=>{
+    // it("should create new url when adding url that doesn't exist yet", async ()=>{
         
-        const response = await request(app).post("/api/shorturl/new").send(newPost);
+    //     jest.spyOn(shortid, 'generate').mockReturnValue("abcdef");
         
-        expect(response.status).toBe(200)
-        expect(response.body.original_URL).toEqual(newPost.url);
-        expect(response.body.new_URL).toEqual("abcdef");
+    //     const response = await request(app).post("/api/shorturl/new").send(mockURLs[1]);
+        
+    //     expect(response.status).toBe(200)
+    //     expect(response.body.original_URL).toEqual(mockURLs[1].url);
+    //     expect(response.body.new_URL).toEqual("abcdef");
+
+    //     jest.spyOn(shortid, 'generate').mockRestore();
+    // })
+
+    it('should send "invalid url" error when invalid url is sent', async()=>{
+
+        const response = await request(app).post("/api/shorturl/new").send(mockURLs[2]);
+        expect(response.status).toBe(200);
+        expect(response.body.error).toEqual("Invalid URL");
+
+    })
+    it('should send "invalid hostName" error when invalid hostName is sent', async()=>{
+
+        const response = await request(app).post("/api/shorturl/new").send(mockURLs[3]);
+        expect(response.status).toBe(200);
+        expect(response.body.error).toEqual("Invalid Hostname");
+
     })
 })

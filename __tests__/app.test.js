@@ -3,6 +3,7 @@ const shortid = require("shortid");
 const app = require("../app");
 const DataBase = require("../public/classes")
 const dataBase = new DataBase();
+const {getSQLFormat} = require("../public/functions")
 const mockURLs = [
     {
         url:"https://github.com"
@@ -73,6 +74,21 @@ describe("urlshort router:",()=>{
             const response = await request(app).get(`/api/shorturl/${shortid.generate()}`);
             expect(response.status).toBe(404);
             expect(response.body.error).toEqual("No short URL found for the given input");
+        })
+    })
+})
+
+describe("statistic router:",()=>{
+    describe("GET entry point:",()=>{
+        it("should send the statistics for the short url that sent",async ()=>{
+            const postRequest = await request(app).post("/api/shorturl/new").send(mockURLs[0]);
+            const databaseArr = await dataBase.read();
+            let postedURL = databaseArr.find(url=> url.original_URL === mockURLs[0].url);
+            postedURL.creationDate = getSQLFormat(postedURL.creationDate);
+            const response = await request(app).get(`/api/statistic/${postRequest.body.new_URL}`);
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(postedURL);
+    
         })
     })
 })

@@ -1,7 +1,8 @@
 const request = require("supertest");
 const shortid = require("shortid");
-const nock = require('nock')
 const app = require("../app");
+const DataBase = require("../public/classes")
+const dataBase = new DataBase();
 const mockURLs = [
     {
         url:"https://github.com"
@@ -17,14 +18,6 @@ const mockURLs = [
     }
 ]
 describe("POST entry points: ",()=>{
-    it("should not change the new url when exist url is enteres", async ()=>{
-
-        const firstResponse = await request(app).post("/api/shorturl/new").send(mockURLs[0]);
-        const secondResponse = await request(app).post("/api/shorturl/new").send(mockURLs[0]);
-        expect(firstResponse.status).toBe(200);
-        expect(firstResponse.body).toEqual(secondResponse.body);
-    })
-
     // it("should create new url when adding url that doesn't exist yet", async ()=>{
         
     //     jest.spyOn(shortid, 'generate').mockReturnValue("abcdef");
@@ -37,6 +30,14 @@ describe("POST entry points: ",()=>{
 
     //     jest.spyOn(shortid, 'generate').mockRestore();
     // })
+
+    it("should not change the new url when exist url is enteres", async ()=>{
+
+        const firstResponse = await request(app).post("/api/shorturl/new").send(mockURLs[0]);
+        const secondResponse = await request(app).post("/api/shorturl/new").send(mockURLs[0]);
+        expect(firstResponse.status).toBe(200);
+        expect(firstResponse.body).toEqual(secondResponse.body);
+    })
 
     it('should send "invalid url" error when invalid url is sent', async()=>{
 
@@ -52,4 +53,20 @@ describe("POST entry points: ",()=>{
         expect(response.body.error).toEqual("Invalid Hostname");
 
     })
+})
+
+describe("GET entry points: ",()=>{
+    it("should redirect to original url based on the short url and update redirectCount ",async()=>{
+        const postRequest = await request(app).post("/api/shorturl/new").send(mockURLs[0]);
+        let databaseArr = await dataBase.read();
+        const redirectCount = databaseArr.find(url=> url.original_URL === mockURLs[0].url).redirectCount;
+        const response = await request(app).get(`/api/shorturl/${postRequest.body.new_URL}`);
+        databaseArr = await dataBase.read();
+        const newRedirectCount = databaseArr.find(url=> url.original_URL === mockURLs[0].url).redirectCount;
+        expect(response.status).toBe(302);
+        expect(response.header.location).toEqual(mockURLs[0].url);
+        expect(newRedirectCount).toBe(redirectCount + 1);
+    })
+
+
 })

@@ -6,7 +6,7 @@ const api = require("./shorturl")
 
 app.use(cors());
 
-app.use("/public", express.static(`./public`));
+app.use(express.static(`./public`));
 app.use("/api", api);
 
 app.set('view engine', 'ejs');

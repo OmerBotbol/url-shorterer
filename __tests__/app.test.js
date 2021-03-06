@@ -80,6 +80,16 @@ describe("urlshort router:",()=>{
 
 describe("statistic router:",()=>{
     describe("GET entry point:",()=>{
+        it("should send the statistic of all the DB when no url is sent", async()=>{
+            const databaseArr = await dataBase.read();
+            const timeFormated = databaseArr.map((urlObj) =>{
+                urlObj.creationDate = getSQLFormat(urlObj.creationDate);
+                return urlObj
+            })
+            const response = await request(app).get(`/api/statistic/`);
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(timeFormated);
+        })
         it("should send the statistics for the short url that sent",async ()=>{
             const postRequest = await request(app).post("/api/shorturl/new").send(mockURLs[0]);
             const databaseArr = await dataBase.read();

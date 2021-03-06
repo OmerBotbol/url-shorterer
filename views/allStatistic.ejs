@@ -19,10 +19,10 @@
             </tr>
             <% urlFormated.forEach((url)=>{ %>
                 <tr>
-                   <td><a href=<%= url.original_URL %>><%= url.original_URL %></a></td>
-                   <td><%= url.new_URL %></td>
-                   <td><%= url.creationDate %></td>
-                   <td><%= url.redirectCount %></td>
+                    <td class="original-URL"><a href=<%= url.original_URL %>><%= url.original_URL %></a></td>
+                    <td class="new-URL"><%= url.new_URL %></td>
+                    <td class="creationDate"><%= url.creationDate %></td>
+                    <td class="redirectCount"><%= url.redirectCount %></td>
                 </tr>
                 <% }) %> 
         </table>

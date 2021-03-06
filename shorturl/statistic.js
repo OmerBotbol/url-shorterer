@@ -12,7 +12,12 @@ router.get("/", (req, res)=>{
             urlObj.creationDate = getSQLFormat(urlObj.creationDate);
             return urlObj
         })
-        res.render('allStatistic' ,{urlFormated});
+        if(process.env.NODE_ENV === 'test'){
+            res.send(urlFormated);
+        }
+        else{
+            res.render('allStatistic' ,{urlFormated});
+        }
     })
 })
 
@@ -22,7 +27,12 @@ router.get("/:shorturl",(req, res)=>{
         try{
             let urlToShow = resolve.find(url => url.new_URL === shorturl);
             urlToShow.creationDate = getSQLFormat(urlToShow.creationDate);
-            res.render("oneStatistic", urlToShow);
+            if(process.env.NODE_ENV === 'test'){
+                res.send(urlToShow);
+            }
+            else{
+                res.render("oneStatistic", urlToShow);
+            }
         }
         catch(err){
             console.log(err)

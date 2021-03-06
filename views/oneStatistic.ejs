@@ -5,18 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <title>Statistic | <%= original_URL.slice(8, original_URL.length) %></title>
 </head>
 <body>
     <h1>Statistics</h1>
     <header id="main-url">statistic for <%= original_URL %></header>
     <div>
-        <table  id="table-of-data">
+        <table  id="table-of-data" class="table-striped">
             <tr>
-                <th>Original URL</th>
-                <th>short URL</th>
-                <th>Creation Date</th>
-                <th>Redirect Counter</th>
+                <th class="text-center">Original URL</th>
+                <th class="text-center">short URL</th>
+                <th class="text-center">Creation Date</th>
+                <th class="text-center">Redirect Counter</th>
             </tr>
             <tr>
                <td class="original-URL"><a href=<%= original_URL %>><%= original_URL %></a></td>

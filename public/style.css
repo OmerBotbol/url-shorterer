@@ -44,3 +44,14 @@ input[type='text'] {
   width: 220px;
   text-align: center;
 }
+
+#table-of-data{
+  border: black 1px solid;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,td,tr{
+  border: black 1px solid;
+  height: 50px;
+}

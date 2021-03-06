@@ -9,8 +9,10 @@ app.use(cors());
 app.use("/public", express.static(`./public`));
 app.use("/api", api);
 
+app.set('view engine', 'ejs');
+
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/views/index.html");
+  res.render('index');
 });
 
 

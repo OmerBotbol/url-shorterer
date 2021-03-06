@@ -12,8 +12,8 @@
     <h1>URL Shortener Microservice</h1>
     <main>
       <section>
-        <form action="api/shorturl/new" method="POST">
-          <fieldset>
+        <form action="api/shorturl/new" method="POST" class="form-inline">
+          <fieldset class="form-group">
             <legend>URL Shortener</legend>
             <label for="url_input">URL:</label>
             <input
@@ -21,8 +21,9 @@
               type="text"
               name="url"
               placeholder="Enter URL Here"
+              class="form-control"
             />
-            <input type="submit" value="POST URL" />
+            <input type="submit" value="POST URL" class="btn btn-default"/>
           </fieldset>
         </form>
       </section>

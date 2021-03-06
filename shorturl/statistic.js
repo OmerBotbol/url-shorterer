@@ -4,7 +4,17 @@ const router = express.Router();
 const dataBase = new DataBase();
 const {getSQLFormat} = require("../public/functions");
 
-router.use("/public", express.static(`./public`));
+router.use(express.static(`./public`));
+
+router.get("/", (req, res)=>{
+    dataBase.read().then((resolve)=>{
+        const urlFormated = resolve.map((urlObj) =>{
+            urlObj.creationDate = getSQLFormat(urlObj.creationDate);
+            return urlObj
+        })
+        res.render('allStatistic' ,{urlFormated});
+    })
+})
 
 router.get("/:shorturl",(req, res)=>{
     const {shorturl} = req.params
@@ -12,8 +22,7 @@ router.get("/:shorturl",(req, res)=>{
         try{
             let urlToShow = resolve.find(url => url.new_URL === shorturl);
             urlToShow.creationDate = getSQLFormat(urlToShow.creationDate);
-            res.render("statistic", urlToShow);
-            
+            res.render("oneStatistic", urlToShow);
         }
         catch(err){
             console.log(err)

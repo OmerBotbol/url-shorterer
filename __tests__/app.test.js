@@ -20,18 +20,18 @@ const mockURLs = [
 ]
 describe("urlshort router:",()=>{
     describe("POST entry points: ",()=>{
-        // it("should create new url when adding url that doesn't exist yet", async ()=>{
+        it("should create new url when adding url that doesn't exist yet", async ()=>{
             
-        //     jest.spyOn(shortid, 'generate').mockReturnValue("abcdef");
+            jest.spyOn(shortid, 'generate').mockReturnValue("abcdef");
             
-        //     const response = await request(app).post("/api/shorturl/new").send(mockURLs[1]);
+            const response = await request(app).post("/api/shorturl/new").send(mockURLs[1]);
             
-        //     expect(response.status).toBe(200)
-        //     expect(response.body.original_URL).toEqual(mockURLs[1].url);
-        //     expect(response.body.new_URL).toEqual("abcdef");
+            expect(response.status).toBe(200)
+            expect(response.body.original_URL).toEqual(mockURLs[1].url);
+            expect(response.body.new_URL).toEqual("abcdef");
     
-        //     jest.spyOn(shortid, 'generate').mockRestore();
-        // })
+            jest.spyOn(shortid, 'generate').mockRestore();
+        })
     
         it("should not change the new url when exist url is enteres", async ()=>{
     

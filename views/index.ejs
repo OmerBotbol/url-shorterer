@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>URL Shortener</title>
+    <link rel="icon" type="image/png" href="../public/favicon.ico" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="./style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>URL Shortener Microservice</h1>
+    <main>
+      <section>
+        <form action="api/shorturl/new" method="POST" class="form-inline">
+          <fieldset class="form-group">
+            <legend>URL Shortener</legend>
+            <label for="url_input">URL:</label>
+            <input
+              id="url_input"
+              type="text"
+              name="url"
+              placeholder="Enter URL Here"
+              class="form-control"
+            />
+            <input type="submit" value="POST URL" class="btn btn-default"/>
+          </fieldset>
+        </form>
+      </section>
+      <section id="example">
+        <h2>Example Usage</h2>
+        <a href="http://localhost:3000/api/shorturl/_8a5ayCIH">[this_project_url]/api/shorturl/_8a5ayCIH</a>
+        <h3>will redirect</h3>
+        <p>https://google.com</p>
+      </section>
+    </main>
+    <footer>
+      <p>By <a href="https://github.com/OmerBotbol">Omer Botbol</a></p>
+    </footer>
+  </body>
+</html>

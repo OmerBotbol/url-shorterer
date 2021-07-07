@@ -2,13 +2,18 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const api = require("./shorturl")
 
 app.use(cors());
 
-app.use("/public", express.static(`./public`));
+app.use(express.static(`./public`));
+app.use("/api", api);
+
+app.set('view engine', 'ejs');
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/views/index.html");
+  res.render('index');
 });
+
 
 module.exports = app;
